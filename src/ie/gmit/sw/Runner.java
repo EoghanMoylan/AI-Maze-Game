@@ -6,11 +6,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
+import ie.gmit.sw.maze.BinaryTreeMaze;
+import ie.gmit.sw.maze.MazeGenerator;
+import ie.gmit.sw.maze.Node;
+
 
 public class Runner implements KeyListener
 {
 	private static final int MAZE_DIMENSION = 100;
-	private char[][] model;
+	private Node[][] model;
 	private int currentRow;
 	private int currentCol;
 	private GameView view;
@@ -42,7 +46,7 @@ public class Runner implements KeyListener
 	private void placePlayer(){   	
     	currentRow = (int) (MAZE_DIMENSION * Math.random());
     	currentCol = (int) (MAZE_DIMENSION * Math.random());
-    	model[currentRow][currentCol] = 'E';
+    	model[currentRow][currentCol].setNodeType('E');
     	updateView(); 		
 	}
 	
@@ -51,23 +55,66 @@ public class Runner implements KeyListener
 		view.setCurrentCol(currentCol);
 	}
 
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void keyPressed(KeyEvent e)
+    {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) 
+        {
+        	if (isValidMove(currentRow, currentCol + 1)) 
+        	{
+        		currentCol++;   		
+        	}
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentCol > 0) 
+        {
+        	if (isValidMove(currentRow, currentCol - 1)) 
+        	{
+        		currentCol--;	
+        	}
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_UP && currentRow > 0) 
+        {
+        	if (isValidMove(currentRow - 1, currentCol))
+    		{
+    			currentRow--;
+    		}
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentRow < MAZE_DIMENSION - 1) 
+        {
+        	if (isValidMove(currentRow + 1, currentCol)) 
+    		{
+    			currentRow++;        	  		
+    		}
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_Z)
+        {
+        	view.toggleZoom();
+        }
+        else
+        {
+        	return;
+        }
+        
+        updateView();       
+    }
+    public void keyReleased(KeyEvent e) {} //Ignore
+	public void keyTyped(KeyEvent e) {} //Ignore
 
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+    
+	private boolean isValidMove(int r, int c)
+	{
+		if (r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == ' ')
+		{
+			model[currentRow][currentCol].setNodeType(' ');
+			model[r][c].setNodeType('E');
+			return true;
+		}
+		else
+		{
+			return false; //Can't move
+		}
 	}
+	
 	
 	public static void main(String[] args) throws Exception {
 		new Runner();

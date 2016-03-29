@@ -5,14 +5,17 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import javax.swing.*;
+
+import ie.gmit.sw.maze.Node;
+
 public class GameView extends JPanel implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_VIEW_SIZE = 800;	
-	private static final int IMAGE_COUNT = 7;
+	private static final int IMAGE_COUNT = 8;
 	private int cellspan = 5;	
 	private int cellpadding = 2;
-	private char[][] maze;
+	private Node maze[][];
 	private BufferedImage[] images;
 	private int enemy_state = 5;
 	private Timer timer;
@@ -21,7 +24,7 @@ public class GameView extends JPanel implements ActionListener
 	private boolean zoomOut = false;
 	private int imageIndex = -1;
 	
-	public GameView(char[][] maze) throws Exception
+	public GameView(Node[][] maze) throws Exception
 	{
 		init();
 		this.maze = maze;
@@ -83,7 +86,7 @@ public class GameView extends JPanel implements ActionListener
        		
         		if (zoomOut)
         		{
-        			ch = maze[row][col];
+        			ch = maze[row][col].getNodeType();
         			if (row == currentRow && col == currentCol)
         			{
         				g2.setColor(Color.YELLOW);
@@ -93,13 +96,17 @@ public class GameView extends JPanel implements ActionListener
         		}
         		else
         		{
-        			ch = maze[currentRow - cellpadding + row][currentCol - cellpadding + col];
+        			ch = maze[currentRow - cellpadding + row][currentCol - cellpadding + col].getNodeType();
         		}
         		
         		
         		if (ch == 'X')
         		{        			
         			imageIndex = 0;;
+        		}
+        		else if (ch == ' ')
+        		{
+        			imageIndex = 7;;
         		}
         		else if (ch == 'W')
         		{
@@ -167,5 +174,6 @@ public class GameView extends JPanel implements ActionListener
 		images[4] = ImageIO.read(new java.io.File("resources/h_bomb.png"));
 		images[5] = ImageIO.read(new java.io.File("resources/spider_down.png"));
 		images[6] = ImageIO.read(new java.io.File("resources/spider_up.png"));
+		images[7] = ImageIO.read(new java.io.File("resources/sand.png"));
 	}
 }
