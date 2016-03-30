@@ -26,19 +26,21 @@ public class BinaryTreeMaze extends AbstractMazeGenerator
 		
 		for (int row = 1; row < maze.length -1 ; row ++)
 		{
-			for (int col = 1; col < maze[row].length -1; col++)
+			for (int col = 1; col < maze[row].length -1; col+=2)
 			{
 				int num = (int) (Math.random() * 10);
 				
 				if (col > 0 && (num >= 5))
 				{
 					maze[row][col].addPath(Node.Direction.West);
-					maze[row - 1][col].setNodeType(' ');		
+					maze[row - 1][col].setNodeType(' ');
+					maze[row + 1][col].setNodeType(' ');
 				}
 				else
 				{
 					maze[row][col].addPath(Node.Direction.North);
 					maze[row][col + 1].setNodeType(' ');
+					//maze[row][col].setNodeType(' ');
 				}
 			}
 		}

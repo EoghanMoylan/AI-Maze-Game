@@ -13,7 +13,7 @@ import ie.gmit.sw.maze.Node;
 
 public class Runner implements KeyListener
 {
-	private static final int MAZE_DIMENSION = 20;
+	private static final int MAZE_DIMENSION = 50;
 	private Node[][] model;
 	private int currentRow;
 	private int currentCol;
