@@ -6,14 +6,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
-import ie.gmit.sw.maze.BinaryTreeMaze;
-import ie.gmit.sw.maze.MazeGenerator;
-import ie.gmit.sw.maze.Node;
+import ie.gmit.sw.maze.*;
 
 
 public class Runner implements KeyListener
 {
-	private static final int MAZE_DIMENSION = 50;
+	private static final int MAZE_DIMENSION = 20;
 	private Node[][] model;
 	private int currentRow;
 	private int currentCol;
@@ -21,7 +19,8 @@ public class Runner implements KeyListener
 	
 	public Runner() throws Exception
 	{	
-		MazeGenerator m = new MazeGenerator(MAZE_DIMENSION, MAZE_DIMENSION);
+		MazeGenerator m = new EllersMaze();
+		m.buildMaze(MAZE_DIMENSION, MAZE_DIMENSION);
 		model = m.getMaze();
     	view = new GameView(model);
     	

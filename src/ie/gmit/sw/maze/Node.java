@@ -1,20 +1,60 @@
 package ie.gmit.sw.maze;
 
 import java.awt.Color;
+import java.util.*;
 public class Node 
 {
 	public enum Direction {North, South, East, West};
 	private Node parent;
 	private Color color = Color.BLACK;
 	private Direction[] paths = null;
+	private Set<Node> nodeSet;
 	public boolean visited =  false;
+	private boolean isStart = false;
 	public boolean goal;
 	private int row = -1;
 	private int col = -1;
 	private int distance;
 	private char nodeType;
-	public Node(int row, int col) {
+	public boolean isStart() {
+		return isStart;
+	}
+
+	public void setStart(boolean isStart) {
+		this.isStart = isStart;
+	}
+
+	public Node(int row, int col) 
+	{
 		this.row = row;
+		this.col = col;
+	}
+
+	public Set<Node> getNodeSet() 
+	{
+		return nodeSet;
+	}
+	public void NewSet()
+	{
+		nodeSet = new HashSet<Node>();
+	}
+	public void setNodeSet(Set<Node> nodeSet) 
+	{
+		this.nodeSet = nodeSet;
+	}
+	public void addNodeToSet(Node n)
+	{
+		this.nodeSet.add(n);
+	}
+	public void mergeSets(Set<Node> mSet)
+	{
+		this.nodeSet.addAll(mSet);
+	}
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public void setCol(int col) {
 		this.col = col;
 	}
 
