@@ -19,7 +19,7 @@ public class Runner implements KeyListener
 	
 	public Runner() throws Exception
 	{	
-		MazeGenerator m = new EllersMaze();
+		MazeGenerator m = new RecursiveBackTracker();
 		m.buildMaze(MAZE_DIMENSION, MAZE_DIMENSION);
 		model = m.getMaze();
     	view = new GameView(model);

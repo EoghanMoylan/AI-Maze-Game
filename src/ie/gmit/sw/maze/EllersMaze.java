@@ -19,7 +19,15 @@ public class EllersMaze implements MazeGenerator
 			for (int col = 0; col < maze[row].length; col++)
 			{
 				maze[row][col] = new Node(row, col);
-				maze[row][col].setNodeType('X');
+				if(row % 2 == 0 || col % 2 == 0)
+				{
+					maze[row][col].setNodeType('X');
+				}
+				else
+				{
+					maze[row][col].setNodeType(' ');
+				}
+				
 			}
 		}
 	}
@@ -31,7 +39,7 @@ public class EllersMaze implements MazeGenerator
 		
 		for (int row = 1; row < maze.length - 1; row ++)
 		{
-			for (int col = 2; col < maze[row].length - 2; col++)
+			for (int col = 2; col < maze[row].length - 2; col+=2)
 			{
 				//add all columns in first row to their first set
 				if(row == 1)
@@ -54,9 +62,9 @@ public class EllersMaze implements MazeGenerator
 						if(!(maze[row][col].getNodeSet().contains(maze[row][col + 1])))
 						{
 							maze[row][col].addNodeToSet(maze[row][col + 1]);
-							maze[row][col].addNodeToSet(maze[row][col + 2]);
+							//maze[row][col].addNodeToSet(maze[row][col + 2]);
 							maze[row][col + 1].setNodeType(' ');
-							maze[row][col + 2].setNodeType(' ');
+							//maze[row][col + 2].setNodeType(' ');
 							//maze[row][col].mergeSets(maze[row][col + num].getNodeSet());
 						}
 					}
@@ -81,7 +89,7 @@ public class EllersMaze implements MazeGenerator
 				{
 					if(randNum.nextInt(2) == 1)
 					{
-						maze[n.getRow() - 1][n.getCol()].setNodeType(' ');
+						maze[n.getRow() + 1][n.getCol()].setNodeType(' ');
 						vertCount++;
 						break;
 					}

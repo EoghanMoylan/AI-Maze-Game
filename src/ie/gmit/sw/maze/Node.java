@@ -108,15 +108,25 @@ public class Node
 		return (Node[]) children.toArray(new Node[children.size()]);
 	}
 
-	public Node[] adjacentNodes(Node[][] maze){
-		java.util.List<Node> adjacents = new java.util.ArrayList<Node>();
+	public ArrayList<Node> adjacentNodes(Node[][] maze)
+	{
+		ArrayList<Node> adjacents = new ArrayList<Node>();
 		
-		if (row > 0) adjacents.add(maze[row - 1][col]); //Add North
-		if (row < maze.length - 1) adjacents.add(maze[row + 1][col]); //Add South
-		if (col > 0) adjacents.add(maze[row][col - 1]); //Add West
-		if (col < maze[row].length - 1) adjacents.add(maze[row][col + 1]); //Add East
+		if (row > 0) adjacents.add(maze[row - 2][col]); //Add North
+		if (row < maze.length - 2) adjacents.add(maze[row + 2][col]); //Add South
+		if (col > 0) adjacents.add(maze[row][col - 2]); //Add West
+		if (col < maze[row].length - 2) adjacents.add(maze[row][col + 2]); //Add East
 		
-		return (Node[]) adjacents.toArray(new Node[adjacents.size()]);
+		return adjacents;
+	}
+	public ArrayList<Node> adjacentNodesFirst(Node[][] maze)
+	{
+		ArrayList<Node> adjacents = new ArrayList<Node>();
+		
+		if (row < maze.length - 2) adjacents.add(maze[row + 2][col]); //Add South
+		if (col < maze[row].length - 2) adjacents.add(maze[row][col + 2]); //Add East
+		
+		return adjacents;
 	}
 	
 	public Direction[] getPaths() {
