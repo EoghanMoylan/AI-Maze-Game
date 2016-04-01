@@ -90,14 +90,20 @@ public class Node
 		this.nodeType = nodeType;
 	}
 
-	public boolean hasDirection(Direction direction){	
-		for (int i = 0; i < paths.length; i++) {
-			if (paths[i] == direction) return true;
+	public boolean hasDirection(Direction direction)
+	{		
+		for (int i = 0; i < paths.length; i++)
+		{
+			if (paths[i] == direction)
+			{
+				return true;	
+			}
 		}
 		return false;
 	}
 	
-	public Node[] children(Node[][] maze){		
+	public Node[] children(Node[][] maze)
+	{		
 		java.util.List<Node> children = new java.util.ArrayList<Node>();
 				
 		if (row > 0 && maze[row - 1][col].hasDirection(Direction.South)) children.add(maze[row - 1][col]); //Add North
@@ -137,9 +143,13 @@ public class Node
 
 	public void addPath(Direction direction) {
 		int index = 0;
-		if (paths == null){
+		
+		if (paths == null)
+		{
 			paths = new Direction[index + 1];		
-		}else{
+		}
+		else
+		{
 			index = paths.length;
 			Direction[] temp = new Direction[index + 1];
 			for (int i = 0; i < paths.length; i++) temp[i] = paths[i];

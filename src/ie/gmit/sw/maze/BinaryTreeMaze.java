@@ -73,4 +73,10 @@ public class BinaryTreeMaze implements MazeGenerator
 	{
 		return this.maze;
 	}
+
+	@Override
+	public Node getGoalNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -116,4 +116,9 @@ public class EllersMaze implements MazeGenerator
 		}
 		return available;
 	}
+	@Override
+	public Node getGoalNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

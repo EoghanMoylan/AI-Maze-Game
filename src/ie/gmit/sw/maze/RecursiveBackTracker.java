@@ -2,12 +2,15 @@ package ie.gmit.sw.maze;
 
 import java.util.*;
 
+import ie.gmit.sw.maze.Node.Direction;
+
 public class RecursiveBackTracker implements MazeGenerator
 {
 
 	private Node[][] maze;
 	private Random randNum = new Random();
 	private List<Node> startingCells = new ArrayList<Node>();
+	private Node goalNode;
 	
 	public Node[][] getMaze() 
 	{
@@ -25,6 +28,9 @@ public class RecursiveBackTracker implements MazeGenerator
 		ArrayList<Node> adjNodes = new ArrayList<Node>();
 		ArrayList<Node> validNeighbours = new ArrayList<Node>();
 		nodes.push(thisNode);
+		
+		
+		
 		do
 		{
 			if(thisNode.isStart() == true)
@@ -63,6 +69,51 @@ public class RecursiveBackTracker implements MazeGenerator
 				thisNode = newOne;
 			}
 		} while(thisNode != startNode && !nodes.isEmpty());
+		
+		doFetures(rows, cols);
+		addGoal();
+	}
+	private void doFetures(int rows, int cols)
+	{
+		int featureNumber = (int)((rows * cols) * 0.01);	
+		addFeature('W', 'X', featureNumber);
+		addFeature('?', 'X', featureNumber);
+		addFeature('B', 'X', featureNumber);
+		addFeature('H', 'X', featureNumber);
+	}
+	private void addFeature(char feature, char replace, int number)
+	{
+		int counter = 0;
+		while (counter < number)
+		{
+			int row = (int)(maze.length * Math.random());
+			int col = (int) (maze[0].length * Math.random());
+			
+			if (maze[row][col].getNodeType() != ' ')
+			{
+				maze[row][col].setNodeType(feature);
+				counter++;
+			}
+		}
+	}
+	private void addGoal()
+	{
+		boolean isValid = false;
+		int row = 1;
+		int col = 1;
+		while(!isValid)
+		{
+			row = (int)(maze.length * Math.random());
+			col = (int) (maze[0].length * Math.random());
+			
+			if(maze[row][col].getNodeType() != ' ')
+			{
+				isValid = true;
+			}
+		}
+		maze[row][col].setGoalNode(true);
+		maze[row][col].setNodeType('G');
+		goalNode = maze[row][col];
 	}
 	private Node getWall(Node n1, Node n2)
 	{
@@ -72,10 +123,14 @@ public class RecursiveBackTracker implements MazeGenerator
 			if (n1.getCol() < n2.getCol())
 			{
 				wall = maze[n2.getRow()][n2.getCol()-1];
+				n1.addPath(Direction.West);
+				n1.setPathCost(1);
 			}
 			else
 			{
 				wall = maze[n2.getRow()][n2.getCol()+1];
+				n1.addPath(Direction.East);
+				n1.setPathCost(1);
 			}
 			
 		} 
@@ -84,11 +139,15 @@ public class RecursiveBackTracker implements MazeGenerator
 			if (n1.getRow() < n2.getRow())
 			{
 				wall = maze[n2.getRow()-1][n2.getCol()];
+				n1.addPath(Direction.North);
+				n1.setPathCost(1);
 
 			}
 			else
 			{
 				wall = maze[n2.getRow()+1][n2.getCol()];
+				n1.addPath(Direction.South);
+				n1.setPathCost(1);
 			}
 		}		
 		return wall;
@@ -113,5 +172,11 @@ public class RecursiveBackTracker implements MazeGenerator
 				}
 			}
 		}
+	}
+	@Override
+	public Node getGoalNode()
+	{
+		// TODO Auto-generated method stub
+		return goalNode;
 	}
 }

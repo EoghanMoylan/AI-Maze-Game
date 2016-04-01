@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
+import ie.gmit.sw.ai.AStarEnemy;
+import ie.gmit.sw.ai.EnemyAI;
 import ie.gmit.sw.maze.*;
 
 
@@ -22,6 +24,7 @@ public class Runner implements KeyListener
 		MazeGenerator m = new RecursiveBackTracker();
 		m.buildMaze(MAZE_DIMENSION, MAZE_DIMENSION);
 		model = m.getMaze();
+		Node goalNode = m.getGoalNode();
     	view = new GameView(model);
     	
     	placePlayer();
@@ -40,16 +43,31 @@ public class Runner implements KeyListener
         f.setLocation(100,100);
         f.pack();
         f.setVisible(true);
+        
+        System.out.println(goalNode.toString() + " GOAL");
+		EnemyAI hunter = new AStarEnemy(model[goalNode.getRow()][goalNode.getCol()]);
+		hunter.traverse(model, model[1][1]);
 	}
 	
-	private void placePlayer(){   	
-    	currentRow = (int) (MAZE_DIMENSION * Math.random());
-    	currentCol = (int) (MAZE_DIMENSION * Math.random());
+	private void placePlayer()
+	{   	
+		boolean isValid = false;
+		while(!isValid)
+		{
+			currentRow = (int) (MAZE_DIMENSION * Math.random());
+			currentCol = (int) (MAZE_DIMENSION * Math.random());
+			if(model[currentRow][currentCol].getNodeType() == ' ')
+			{
+				isValid = true;
+			}
+		}
     	model[currentRow][currentCol].setNodeType('E');
     	updateView(); 		
 	}
 	
-	private void updateView(){
+	private void updateView()
+	{
+    	model[currentRow][currentRow].setGoalNode(true);
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 	}
