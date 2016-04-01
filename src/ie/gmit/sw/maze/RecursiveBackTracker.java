@@ -7,6 +7,7 @@ public class RecursiveBackTracker implements MazeGenerator
 
 	private Node[][] maze;
 	private Random randNum = new Random();
+	private List<Node> startingCells = new ArrayList<Node>();
 	
 	public Node[][] getMaze() 
 	{
@@ -16,25 +17,24 @@ public class RecursiveBackTracker implements MazeGenerator
 	{
 		maze = new Node[rows][cols];
 		init();
-		int curRow = 1;
-		int curCol = 1;
+		int randNode = randNum.nextInt(startingCells.size()-1);
+		Node startNode = startingCells.get(randNode);
+		Node thisNode = startNode;
 		Stack<Node> nodes = new Stack<Node>();
 		boolean firstNode = true;
 		ArrayList<Node> adjNodes = new ArrayList<Node>();
 		ArrayList<Node> validNeighbours = new ArrayList<Node>();
-		while(nodesUnvisited())
+		nodes.push(thisNode);
+		do
 		{
-			
-					
-			if(firstNode = true)
+			if(thisNode.isStart() == true)
 			{
-				adjNodes = maze[curRow][curCol].adjacentNodesFirst(maze);
+				adjNodes = thisNode.adjacentNodesFirst(maze);
 				firstNode = false;
 			}
 			else
 			{
-				System.out.println("NOT FIRST");
-				adjNodes = maze[curRow][curCol].adjacentNodes(maze);
+				adjNodes = thisNode.adjacentNodes(maze);
 			}			
 			for(Node n : adjNodes)
 			{
@@ -47,27 +47,22 @@ public class RecursiveBackTracker implements MazeGenerator
 			{			
 				Node next = validNeighbours.get(randNum.nextInt(validNeighbours.size()));
 				
-				Node wall = getWall(maze[curRow][curRow], maze[next.getRow()][next.getCol()]);
+				Node wall = getWall(thisNode, maze[next.getRow()][next.getCol()]);
 				wall.setNodeType(' ');
-				nodes.push(maze[curRow][curCol]);
-				maze[curRow][curCol].setVisited(true);
+				nodes.push(thisNode);
+				thisNode.setVisited(true);
 				
-				curRow = next.getRow();
-				curCol = next.getCol();	
-				maze[curRow][curCol].setVisited(true);
-				System.out.println("THE NEIGHS");
-				System.out.println(validNeighbours.size());
+				thisNode = next;	
+				thisNode.setVisited(true);
+
 				validNeighbours.clear();
-				System.out.println(validNeighbours.size());
 			}
-			else
+			else if (!nodes.isEmpty())
 			{
-				System.out.println("NEW SHTUFF ");
 				Node newOne = nodes.pop();
-				curRow = newOne.getRow();
-				curCol = newOne.getCol();	
+				thisNode = newOne;
 			}
-		}
+		} while(thisNode != startNode && !nodes.isEmpty());
 	}
 	private Node getWall(Node n1, Node n2)
 	{
@@ -89,16 +84,16 @@ public class RecursiveBackTracker implements MazeGenerator
 			if (n1.getRow() < n2.getRow())
 			{
 				wall = maze[n2.getRow()-1][n2.getCol()];
+
 			}
 			else
 			{
 				wall = maze[n2.getRow()+1][n2.getCol()];
 			}
-		}
-		System.out.println("GIT DAT WALL");
-		
+		}		
 		return wall;
 	}
+	
 	private void init()
 	{
 		for (int row = 0; row < maze.length; row ++)
@@ -113,33 +108,10 @@ public class RecursiveBackTracker implements MazeGenerator
 				else
 				{
 					maze[row][col].setNodeType(' ');
+					maze[row][col].setStart(true);
+					startingCells.add(maze[row][col]);
 				}
 			}
 		}
 	}
-	private boolean nodesUnvisited()
-	{
-		boolean unvisited = true;
-		int counter = 0;
-		for (int row = 0; row < maze.length; row ++)
-		{
-			for (int col = 0; col < maze[row].length; col++)
-			{
-				if(maze[row][col].isVisited() == false)
-				{
-					unvisited = true;
-					counter ++;
-					//break;
-				}
-				else
-				{
-					unvisited = false;
-				}
-			}
-		}
-		System.out.println(counter);
-		return unvisited;
-		
-	}
-
 }
