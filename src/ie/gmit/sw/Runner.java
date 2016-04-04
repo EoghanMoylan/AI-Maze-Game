@@ -44,10 +44,10 @@ public class Runner implements KeyListener
         f.setVisible(true);
         
         System.out.println(goalNode.toString() + " GOAL");
-//        EnemyAI hunter = new AStarEnemy(goalNode);
-//        hunter.traverse(model, model[2][2]);
-        EnemyAI hunter = new IterDFS();
+        EnemyAI hunter = new AStarEnemy(goalNode);
         hunter.traverse(model, model[2][2]);
+//        EnemyAI hunter = new IterDFS();
+//        hunter.traverse(model, model[2][2]);
 	}
 	
 	private void placePlayer()
