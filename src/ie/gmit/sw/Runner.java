@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import ie.gmit.sw.ai.*;
 import ie.gmit.sw.helpfulai.AStarHelp;
+import ie.gmit.sw.helpfulai.DFSBomb;
 import ie.gmit.sw.maze.*;
 import ie.gmit.sw.playanden.Enemy;
 import ie.gmit.sw.playanden.Enemy.SearchType;
@@ -53,8 +54,8 @@ public class Runner implements KeyListener
 //        System.out.println(endGoal.toString() + " GOAL");
 //        AI hunter = new AStarEnemy(endGoal);
 //        hunter.traverse(model, model[2][2]);
-////        EnemyAI hunter = new IterDFS();
-////        hunter.traverse(model, model[2][2]);
+//        AI hunter = new EnemyIterDFS();
+//        hunter.traverse(model, model[2][2]);
 	}
 	
 	private void placePlayer()
@@ -84,43 +85,49 @@ public class Runner implements KeyListener
 
 	public void setUpEnemies()
 	{
-		for(int i = 1 ; i <= 4 ; i++)
+		for(int i = 1 ; i <= 2 ; i++)
 		{
 			Enemy.SearchType search;
 			if(i % 2 == 0)
 			{
-				search = SearchType.ASTAR;
+				search = SearchType.ITERDFS;
 			}
 			else
 			{
-				search = SearchType.ITERDFS;
+				search = SearchType.ASTAR;
 			}
-				
+			int tempRow = 2;
+			int tempCol = 2;
 			boolean isValid = false;
 			while(!isValid)
 			{
-				int tempRow = (int) (MAZE_DIMENSION * Math.random());
-				int tempCol = (int) (MAZE_DIMENSION * Math.random());
+				tempRow = (int) (MAZE_DIMENSION * Math.random());
+				tempCol = (int) (MAZE_DIMENSION * Math.random());
+				
 				if(model[tempRow][tempCol].getNodeType() == ' ')
 				{
 					isValid = true;
 				}
 			}
+			int finalRow = tempRow;
+			int finalCol = tempCol;
 			Thread enemy = new Thread() 
 			{
 			    public void run() 
 			    {
 			        try 
 			        { 
-			        	System.out.println("NEW ENEMY");
-			        	Enemy enemy = new Enemy(player, search, endGoal, model);
-			        	enemy.initHunter();        	
+			        	System.out.println("NEW ENEMY : " + search + " TYPE");
+			        	Enemy enemy = new Enemy(player, search, model[finalRow][finalCol], model);
+			        	enemy.initHunter();
 			        } 
 			        catch(Exception e) 
 			        {
 			            System.out.println(e);
 			        }
+			       // return;
 			    }  
+			   
 			};
 			enemy.start();
 		}
@@ -184,10 +191,10 @@ public class Runner implements KeyListener
 			{
 			    public void run() 
 			    {
-			    	System.out.println("RUNNING");
+			    	//System.out.println("RUNNING");
 			        try 
 			        { 
-			        	System.out.println("NEW THREAD RUNNING");
+			        	//System.out.println("NEW THREAD RUNNING");
 						AI helper = new AStarHelp(endGoal);
 						helper.traverse(model,model[currentRow][currentCol]);
 			        } 
@@ -195,9 +202,36 @@ public class Runner implements KeyListener
 			        {
 			            System.out.println(e);
 			        }
-			    }  
+			        return;
+			    } 
+			    
 			};
 			help.start();
+			//help.interrupt();
+			return false;
+		}
+		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == 'B')
+		{
+			Thread bomb = new Thread() 
+			{
+			    public void run() 
+			    {
+			    	//System.out.println("RUNNING");
+			        try 
+			        { 
+						
+						DFSBomb dfsbomb = new DFSBomb(3);
+						dfsbomb.traverse(model, model[currentRow][currentCol]);
+			        } 
+			        catch(Exception e) 
+			        {
+			            System.out.println(e);
+			        }
+			        return;
+			    } 
+			    
+			};
+			bomb.start();
 			return false;
 		}
 		else

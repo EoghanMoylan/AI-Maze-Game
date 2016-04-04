@@ -20,6 +20,7 @@ public class AStarHelp extends AStar
 	}
 	public void revealPath()
 	{
+		finalList = super.returnList();
 		List<Node> newList = new ArrayList<Node>();
 		Node curNode = finalList.get(finalList.size()-1);
 		while(curNode != null)
@@ -38,7 +39,7 @@ public class AStarHelp extends AStar
 					break;
 				}
 				curNode.setNodeType('C');
-				//System.out.println(curNode.toString() + " " + curNode.getNodeType());
+				System.out.println(curNode.toString() + " " + curNode.getNodeType());
 			}
 		}
 		try 
@@ -62,7 +63,7 @@ public class AStarHelp extends AStar
 				}
 			}
 		}
-		
+		super.clearAll();
 		//Thread.currentThread().interrupt();
 	}
 }

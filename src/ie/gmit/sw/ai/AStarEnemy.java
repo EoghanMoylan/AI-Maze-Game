@@ -62,5 +62,6 @@ public class AStarEnemy extends AStar
 				oldNode.setNodeType(' ');
 			}
 		}
+		super.clearAll();
 	}
 }

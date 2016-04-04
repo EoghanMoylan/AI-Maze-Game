@@ -12,7 +12,7 @@ public class GameView extends JPanel implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_VIEW_SIZE = 800;	
-	private static final int IMAGE_COUNT = 11;
+	private static final int IMAGE_COUNT = 12;
 	private int cellspan = 5;	
 	private int cellpadding = 2;
 	private Node maze[][];
@@ -196,6 +196,10 @@ public class GameView extends JPanel implements ActionListener
             		{
             			imageIndex = 10;;     			
             		}
+            		else if (ch == 'F')
+            		{
+            			imageIndex = 11;;     			
+            		}
             		else
             		{
             			imageIndex = -1;
@@ -250,5 +254,6 @@ public class GameView extends JPanel implements ActionListener
 		images[8] = ImageIO.read(new java.io.File("resources/exit.png"));
 		images[9] = ImageIO.read(new java.io.File("resources/enemy.png"));
 		images[10] = ImageIO.read(new java.io.File("resources/clue.png"));
+		images[11] = ImageIO.read(new java.io.File("resources/fire.png"));
 	}
 }

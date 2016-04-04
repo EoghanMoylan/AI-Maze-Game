@@ -22,7 +22,7 @@ public class Enemy
 		endNode = player.getCurrentNode();
 		setSearchType(search);
 		setCurrentPos(startNode);
-		this.maze = maze;
+		this.maze = maze.clone();
 	}
 	
 	public Node getCurrentPos() {
@@ -79,6 +79,7 @@ public class Enemy
 	}
 	public void updatePlayerPos()
 	{
+		System.out.println(player.getCurrentNode());
 		hunter.updateGoalNode(player.getCurrentNode());
 	}
 }

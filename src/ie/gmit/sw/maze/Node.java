@@ -27,7 +27,6 @@ public class Node
 	public void setEndNode(boolean isEndNode) {
 		this.isEndNode = isEndNode;
 	}
-
 	public void setStart(boolean isStart) {
 		this.isStart = isStart;
 	}

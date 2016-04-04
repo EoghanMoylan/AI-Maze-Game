@@ -10,10 +10,11 @@ public class EnemyIterDFS implements AI
 	private Node[][] maze;
 	private Node goal;
 	private boolean keepRunning = true;
-	private long time = System.currentTimeMillis();
 	private List<Node> finalList = new ArrayList<Node>();
 	
-	public void traverse(Node[][] maze, Node start) {
+	public void traverse(Node[][] maze, Node start) 
+	{
+		maze = maze.clone();
 		this.maze = maze;
 		int limit = 9;
 		
@@ -39,15 +40,13 @@ public class EnemyIterDFS implements AI
 		}
 		node.setVisited(true);	
 		
-		if (node.isGoalNode())
+		if (node == goal)
 		{
 			System.out.println("FOUND GOAL");
 			goal = node;
-	        time = System.currentTimeMillis() - time; //Stop the clock
 	        keepRunning = false;
 			return;
 		}
-		
 		
 		ArrayList<Node> children = node.adjacentNodes(maze);
 		
@@ -111,11 +110,13 @@ public class EnemyIterDFS implements AI
 			}
 		}
 		
-		System.out.println(finalList);
+		//System.out.println(finalList);
+		unvisit();
 	}
 		
 	private void unvisit()
 	{
+		finalList.clear();
 		for (int i = 0; i < maze.length; i++)
 		{
 			for (int j = 0; j < maze[i].length; j++)
