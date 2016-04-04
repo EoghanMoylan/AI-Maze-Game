@@ -1,16 +1,17 @@
 package ie.gmit.sw.ai;
 
 //import java.awt.Color;
-import java.util.ArrayList;
+import java.util.*;
 
 import ie.gmit.sw.maze.Node;
 
-public class IterDFS implements EnemyAI
+public class EnemyIterDFS implements AI
 {
-
 	private Node[][] maze;
+	private Node goal;
 	private boolean keepRunning = true;
 	private long time = System.currentTimeMillis();
+	private List<Node> finalList = new ArrayList<Node>();
 	
 	public void traverse(Node[][] maze, Node start) {
 		this.maze = maze;
@@ -22,18 +23,12 @@ public class IterDFS implements EnemyAI
 			
 			if (keepRunning)
 			{
-//				try 
-//				{ //Pause before next iteration
-//					Thread.sleep(1);
-		      		limit++;       		
-		      		unvisit();	
-//				} 
-//				catch (InterruptedException e) 
-//				{
-//					e.printStackTrace();
-//				}			
+	      		limit++;       		
+	      		unvisit();			
 			}
       	}
+		
+		go();
 	}
 
 	private void dfs(Node node, int depth, int limit)
@@ -43,24 +38,16 @@ public class IterDFS implements EnemyAI
 			return;		
 		}
 		node.setVisited(true);	
-		node.setNodeType('V');
 		
 		if (node.isGoalNode())
 		{
 			System.out.println("FOUND GOAL");
+			goal = node;
 	        time = System.currentTimeMillis() - time; //Stop the clock
 	        keepRunning = false;
 			return;
 		}
 		
-//		try 
-//		{ //Simulate processing each expanded node
-//			Thread.sleep(1);
-//		}
-//		catch (InterruptedException e)
-//		{
-//			e.printStackTrace();
-//		}
 		
 		ArrayList<Node> children = node.adjacentNodes(maze);
 		
@@ -73,11 +60,59 @@ public class IterDFS implements EnemyAI
 				if (child != null && !child.isVisited())
 				{
 					child.setParent(node);
+					finalList.add(child);
 					dfs(child, depth + 1, limit);
 				}
 			}
 		}
 	} 
+	public void go()
+	{
+		List<Node> newList = new ArrayList<Node>();
+//		System.out.println("GO GO GO");
+		Node oldNode;
+//		Node curNode = finalList.get(finalList.size()-1);
+		Node curNode = goal;
+		while(curNode != null)
+		{
+			System.out.println("ADDING");
+			newList.add(curNode);
+			curNode = curNode.getParent();
+		}
+		for(int i = newList.size() -1 ; i >= 0 ; i--)
+		{
+			//System.out.println(newList.size());
+			curNode = newList.get(i);
+			if(curNode != null)
+			{
+				System.out.println(curNode.toString() + " " + curNode.getNodeType());
+				
+				if(curNode.getNodeType() == 'G')
+				{
+					System.out.println("DONE");
+					break;
+				}
+				curNode.setNodeType('V');
+			}
+
+			try 
+			{ 
+				//Simulate processing each expanded node
+				Thread.sleep(500);
+			}
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			oldNode = curNode;
+			if(oldNode.getNodeType() != 'X' && oldNode.getNodeType() != 'G')
+			{
+				oldNode.setNodeType(' ');
+			}
+		}
+		
+		System.out.println(finalList);
+	}
 		
 	private void unvisit()
 	{
@@ -90,5 +125,11 @@ public class IterDFS implements EnemyAI
 				//maze[i][j].setNodeType(' ');
 			}
 		}
+	}
+
+	@Override
+	public void updateGoalNode(Node goal) {
+		this.goal = goal;
+		
 	}
 }

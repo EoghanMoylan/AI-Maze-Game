@@ -7,7 +7,11 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 import ie.gmit.sw.ai.*;
+import ie.gmit.sw.helpfulai.AStarHelp;
 import ie.gmit.sw.maze.*;
+import ie.gmit.sw.playanden.Enemy;
+import ie.gmit.sw.playanden.Enemy.SearchType;
+import ie.gmit.sw.playanden.Player;
 
 
 public class Runner implements KeyListener
@@ -17,13 +21,16 @@ public class Runner implements KeyListener
 	private int currentRow;
 	private int currentCol;
 	private GameView view;
+	private Node endGoal;
+	private Player player;
 	
 	public Runner() throws Exception
 	{	
+		player = new Player();
 		MazeGenerator m = new RecursiveBackTracker();
 		m.buildMaze(MAZE_DIMENSION, MAZE_DIMENSION);
 		model = m.getMaze();
-		Node goalNode = m.getGoalNode();
+		endGoal = m.getGoalNode();
     	view = new GameView(model);
     	
     	placePlayer();
@@ -42,12 +49,12 @@ public class Runner implements KeyListener
         f.setLocation(100,100);
         f.pack();
         f.setVisible(true);
-        
-        System.out.println(goalNode.toString() + " GOAL");
-        EnemyAI hunter = new AStarEnemy(goalNode);
-        hunter.traverse(model, model[2][2]);
-//        EnemyAI hunter = new IterDFS();
+        setUpEnemies();
+//        System.out.println(endGoal.toString() + " GOAL");
+//        AI hunter = new AStarEnemy(endGoal);
 //        hunter.traverse(model, model[2][2]);
+////        EnemyAI hunter = new IterDFS();
+////        hunter.traverse(model, model[2][2]);
 	}
 	
 	private void placePlayer()
@@ -63,6 +70,7 @@ public class Runner implements KeyListener
 			}
 		}
     	model[currentRow][currentCol].setNodeType('E');
+    	player.setCurrentNode(model[currentRow][currentCol]);
     	updateView(); 		
 	}
 	
@@ -70,9 +78,53 @@ public class Runner implements KeyListener
 	{
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
+		player.setCurrentNode(model[currentRow][currentCol]);
+		//System.out.println(player.getCurrentNode());
 	}
 
-
+	public void setUpEnemies()
+	{
+		for(int i = 1 ; i <= 4 ; i++)
+		{
+			Enemy.SearchType search;
+			if(i % 2 == 0)
+			{
+				search = SearchType.ASTAR;
+			}
+			else
+			{
+				search = SearchType.ITERDFS;
+			}
+				
+			boolean isValid = false;
+			while(!isValid)
+			{
+				int tempRow = (int) (MAZE_DIMENSION * Math.random());
+				int tempCol = (int) (MAZE_DIMENSION * Math.random());
+				if(model[tempRow][tempCol].getNodeType() == ' ')
+				{
+					isValid = true;
+				}
+			}
+			Thread enemy = new Thread() 
+			{
+			    public void run() 
+			    {
+			        try 
+			        { 
+			        	System.out.println("NEW ENEMY");
+			        	Enemy enemy = new Enemy(player, search, endGoal, model);
+			        	enemy.initHunter();        	
+			        } 
+			        catch(Exception e) 
+			        {
+			            System.out.println(e);
+			        }
+			    }  
+			};
+			enemy.start();
+		}
+	}
     public void keyPressed(KeyEvent e)
     {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) 
@@ -120,11 +172,33 @@ public class Runner implements KeyListener
     
 	private boolean isValidMove(int r, int c)
 	{
-		if (r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == ' ')
+		if (r <= model.length - 1 && c <= model[r].length - 1 && (model[r][c].getNodeType() == ' ' ||model[r][c].getNodeType() == 'C'))
 		{
 			model[currentRow][currentCol].setNodeType(' ');
 			model[r][c].setNodeType('E');
 			return true;
+		}
+		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == '?')
+		{
+			Thread help = new Thread() 
+			{
+			    public void run() 
+			    {
+			    	System.out.println("RUNNING");
+			        try 
+			        { 
+			        	System.out.println("NEW THREAD RUNNING");
+						AI helper = new AStarHelp(endGoal);
+						helper.traverse(model,model[currentRow][currentCol]);
+			        } 
+			        catch(Exception e) 
+			        {
+			            System.out.println(e);
+			        }
+			    }  
+			};
+			help.start();
+			return false;
 		}
 		else
 		{
@@ -132,8 +206,8 @@ public class Runner implements KeyListener
 		}
 	}
 	
-	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception 
+	{
 		new Runner();
 	}
 	

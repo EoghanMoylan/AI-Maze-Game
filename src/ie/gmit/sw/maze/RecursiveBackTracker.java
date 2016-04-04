@@ -29,8 +29,6 @@ public class RecursiveBackTracker implements MazeGenerator
 		ArrayList<Node> validNeighbours = new ArrayList<Node>();
 		nodes.push(thisNode);
 		
-		
-		
 		do
 		{
 			if(thisNode.isStart() == true)
@@ -71,7 +69,7 @@ public class RecursiveBackTracker implements MazeGenerator
 		} while(thisNode != startNode && !nodes.isEmpty());
 		
 		doFetures(rows, cols);
-		addGoal();
+		addEndGoal();
 	}
 	private void doFetures(int rows, int cols)
 	{
@@ -96,7 +94,7 @@ public class RecursiveBackTracker implements MazeGenerator
 			}
 		}
 	}
-	private void addGoal()
+	private void addEndGoal()
 	{
 		boolean isValid = false;
 		int row = 1;
@@ -111,7 +109,7 @@ public class RecursiveBackTracker implements MazeGenerator
 				isValid = true;
 			}
 		}
-		maze[row][col].setGoalNode(true);
+		maze[row][col].setEndNode(true);
 		maze[row][col].setNodeType('G');
 		goalNode = maze[row][col];
 	}
