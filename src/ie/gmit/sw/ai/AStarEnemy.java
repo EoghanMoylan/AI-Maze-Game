@@ -21,10 +21,12 @@ public class AStarEnemy implements EnemyAI
     	   	
 		open.offer(node);
 		node.setPathCost(0);	
+		//only used to change sprite back to floor.
 		Node oldNode = node;
+		
 		while(!open.isEmpty())
 		{
-			oldNode.setNodeType(' ');
+			//oldNode.setNodeType(' ');
 			System.out.println("LOOKING");
 			node = open.poll();		
 			closed.add(node);
@@ -35,11 +37,11 @@ public class AStarEnemy implements EnemyAI
 			
 			if (node.isGoalNode())
 			{
+				System.out.println(goal);
 				System.out.println("goalNode founds");
 		        time = System.currentTimeMillis() - time; //Stop the clock
 				break;
 			}
-			
 			try 
 			{ 
 				//Simulate processing each expanded node
@@ -54,11 +56,12 @@ public class AStarEnemy implements EnemyAI
 			ArrayList<Node> children = node.adjacentNodes(maze);
 			for (Node child : children) 
 			{
-				if(child.getNodeType() == ' ')
+				System.out.println(child.toString() + " :::: " + child.getNodeType());
+				if(child.getNodeType() != 'X' && child.getNodeType() != 'W' && child.getNodeType() != 'B' && child.getNodeType() != 'H'&& child.getNodeType() != '?')//(child.getNodeType() == ' '  ||  child.getNodeType() == 'G' ||  child.getNodeType() == 'V' ||  child.getNodeType() == 'E')
 				{
 					int score = node.getPathCost() + 1 + child.getHeuristic(goal);
 					int existing = child.getPathCost() + child.getHeuristic(goal);
-					
+					child.setNodeType('V');
 					if ((open.contains(child) || closed.contains(child)) && existing < score)
 					{
 						continue;

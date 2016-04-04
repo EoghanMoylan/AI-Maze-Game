@@ -6,14 +6,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
-import ie.gmit.sw.ai.AStarEnemy;
-import ie.gmit.sw.ai.EnemyAI;
+import ie.gmit.sw.ai.*;
 import ie.gmit.sw.maze.*;
 
 
 public class Runner implements KeyListener
 {
-	private static final int MAZE_DIMENSION = 20;
+	private static final int MAZE_DIMENSION = 60;
 	private Node[][] model;
 	private int currentRow;
 	private int currentCol;
@@ -45,8 +44,10 @@ public class Runner implements KeyListener
         f.setVisible(true);
         
         System.out.println(goalNode.toString() + " GOAL");
-		EnemyAI hunter = new AStarEnemy(model[goalNode.getRow()][goalNode.getCol()]);
-		hunter.traverse(model, model[1][1]);
+//        EnemyAI hunter = new AStarEnemy(goalNode);
+//        hunter.traverse(model, model[2][2]);
+        EnemyAI hunter = new IterDFS();
+        hunter.traverse(model, model[2][2]);
 	}
 	
 	private void placePlayer()
@@ -67,7 +68,6 @@ public class Runner implements KeyListener
 	
 	private void updateView()
 	{
-    	model[currentRow][currentRow].setGoalNode(true);
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 	}

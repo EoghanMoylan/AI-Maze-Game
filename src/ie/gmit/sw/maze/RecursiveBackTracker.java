@@ -20,7 +20,7 @@ public class RecursiveBackTracker implements MazeGenerator
 	{
 		maze = new Node[rows][cols];
 		init();
-		int randNode = randNum.nextInt(startingCells.size()-1);
+		int randNode = randNum.nextInt(startingCells.size() -1 );
 		Node startNode = startingCells.get(randNode);
 		Node thisNode = startNode;
 		Stack<Node> nodes = new Stack<Node>();
@@ -104,7 +104,7 @@ public class RecursiveBackTracker implements MazeGenerator
 		while(!isValid)
 		{
 			row = (int)(maze.length * Math.random());
-			col = (int) (maze[0].length * Math.random());
+			col = (int) (maze.length * Math.random());
 			
 			if(maze[row][col].getNodeType() != ' ')
 			{
@@ -124,13 +124,11 @@ public class RecursiveBackTracker implements MazeGenerator
 			{
 				wall = maze[n2.getRow()][n2.getCol()-1];
 				n1.addPath(Direction.West);
-				n1.setPathCost(1);
 			}
 			else
 			{
 				wall = maze[n2.getRow()][n2.getCol()+1];
 				n1.addPath(Direction.East);
-				n1.setPathCost(1);
 			}
 			
 		} 
@@ -140,14 +138,11 @@ public class RecursiveBackTracker implements MazeGenerator
 			{
 				wall = maze[n2.getRow()-1][n2.getCol()];
 				n1.addPath(Direction.North);
-				n1.setPathCost(1);
-
 			}
 			else
 			{
 				wall = maze[n2.getRow()+1][n2.getCol()];
 				n1.addPath(Direction.South);
-				n1.setPathCost(1);
 			}
 		}		
 		return wall;
@@ -172,6 +167,7 @@ public class RecursiveBackTracker implements MazeGenerator
 				}
 			}
 		}
+		
 	}
 	@Override
 	public Node getGoalNode()

@@ -11,7 +11,7 @@ public class Node
 	private Set<Node> nodeSet;
 	public boolean visited =  false;
 	private boolean isStart = false;
-	public boolean goal;
+	public boolean goal = false;
 	private int row = -1;
 	private int col = -1;
 	private int distance;
@@ -117,11 +117,11 @@ public class Node
 	public ArrayList<Node> adjacentNodes(Node[][] maze)
 	{
 		ArrayList<Node> adjacents = new ArrayList<Node>();
-		System.out.println("ROW " + row + " COL " + col);
+		//System.out.println("ROW " + row + " COL " + col);
 		if (row-1 > 0) adjacents.add(maze[row - 1][col]); //Add North
-		if (row+1 < maze.length -1) adjacents.add(maze[row + 1][col]); //Add South
+		if (row+1 < maze.length) adjacents.add(maze[row + 1][col]); //Add South
 		if (col-1 > 0) adjacents.add(maze[row][col - 1]); //Add West
-		if (col+1 < maze[row].length - 1) adjacents.add(maze[row][col + 1]); //Add East
+		if (col+1 < maze[row].length) adjacents.add(maze[row][col + 1]); //Add East
 		
 		return adjacents;
 	}
@@ -182,7 +182,7 @@ public class Node
 		double x2 = goal.getCol();
 		double y2 = goal.getRow();
 		double d = 1;
-		return (int)(d * Math.abs(x1 - x2) - Math.abs(y1-y2));
+		return (int)(d * Math.abs(x1 - x2) - Math.abs(y1 - y2));
 		//return (int) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
 	}
 	
