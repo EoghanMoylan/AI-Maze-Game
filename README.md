@@ -20,8 +20,8 @@ result in less damage.
 The goal of the game is to find the exit node and survive the maze in as few steps as possible and as much health as possible.
 
 ###Known Issues
-1) Sometimes hitting the blue or red boxes will not generate the associated sprites on the adjacent tiles. You will notice, however, 
-that these can be seen from the map view by pressing "z".
+1) Sometimes hitting the blue or red boxes will not generate the associated sprites on the adjacent tiles. You will notice, however, that these can be seen from the map view by pressing "z".
+
 2)The player can be injured when loading in as enemies are spawned near by and attack before the game has loaded.
 
 ####NOTES
@@ -29,8 +29,13 @@ Even though there are several maze algorithms present, only the one implemented 
 
 ##References:
 [ELLERS MAZE](http://www.neocomputer.org/projects/eller.html)
+
 [RECURSIVE BACK TRACKER](http://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking)
+
 [THREADS](http://www.tutorialspoint.com/java/java_multithreading.htm)
+
 [GUI AND HUD](https://github.com/DiarmuidByrne/AI-Assignment-Heuristic-Maze-Game)
+
 [FUZZY LOGIC](http://www.tutorialspoint.com/java/java_multithreading.htm)
+
 Game View, search algorithms etc. - John Healy
