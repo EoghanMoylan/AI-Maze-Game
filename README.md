@@ -24,6 +24,8 @@ The goal of the game is to find the exit node and survive the maze in as few ste
 
 2)The player can be injured when loading in as enemies are spawned near by and attack before the game has loaded.
 
+3)Occasional crashing when activating boxes. Rare and can't replicate, possibily just my machine. 
+
 ####NOTES
 Even though there are several maze algorithms present, only the one implemented (recurive backtracker) actually has full functionality.
 
