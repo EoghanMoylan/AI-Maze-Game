@@ -33,6 +33,7 @@ public class Runner implements KeyListener
 		model = m.getMaze();
 		endGoal = m.getGoalNode();
     	view = new GameView(model);
+    	view.addPlayer(player);
     	placePlayer();
     	
     	Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
@@ -50,11 +51,6 @@ public class Runner implements KeyListener
         f.pack();
         f.setVisible(true);
         setUpEnemies();
-      ////  Enemy enemy = new Enemy(player, SearchType.ITERDFS, model[2][2], model);
-      //  enemy.initHunter();
-//        System.out.println(endGoal.toString() + " GOAL");
-//        AI hunter = new EnemyIterDFS();
-//        hunter.traverse(model, model[2][2]);
 	}
 	
 	private void placePlayer()

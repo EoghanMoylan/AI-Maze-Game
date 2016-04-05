@@ -12,13 +12,8 @@ public class EnemyIterDFS implements AI
 	private boolean keepRunning = true;
 	private List<Node> finalList = new ArrayList<Node>();
 	private List<Node> newList = new ArrayList<Node>();
-	//private Enemy enemy;
-	
-	public EnemyIterDFS()
-	{
-		//this.enemy = enemy;
-	}
-	
+	private Node finalNode = new Node(0, 0);
+
 	public void traverse(Node[][] maze, Node start) 
 	{
 		//maze = maze.clone();
@@ -74,7 +69,7 @@ public class EnemyIterDFS implements AI
 	} 
 	public void go()
 	{
-	
+		finalNode = null;
 //		System.out.println("GO GO GO");
 		Node oldNode;
 //		Node curNode = finalList.get(finalList.size()-1);
@@ -93,9 +88,13 @@ public class EnemyIterDFS implements AI
 			{
 				//System.out.println(curNode.toString() + " " + curNode.getNodeType());
 				
-				if(curNode.getNodeType() == 'G')
+				if(curNode.getNodeType() == 'E' || curNode.getNodeType() == 'F')
 				{
-					System.out.println("DONE");
+					if(curNode.getNodeType() == 'E')
+					{
+						curNode.setHasPlayer(true);
+					}
+					finalNode = curNode;
 					break;
 				}
 				curNode.setNodeType('V');
@@ -135,7 +134,10 @@ public class EnemyIterDFS implements AI
 			}
 		}
 	}
-
+	public Node returnFinalNode()
+	{
+		return finalNode;	
+	}
 	@Override
 	public void updateGoalNode(Node goal)
 	{

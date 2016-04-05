@@ -10,6 +10,7 @@ public class AStarEnemy extends AStar
 	//private List<Node> closed = new ArrayList<Node>();
 	private List<Node> finalList; //= new ArrayList<Node>();
 	private List<Node> newList = new ArrayList<Node>();
+	private Node finalNode = new Node(0, 0);
 	//private PriorityQueue<Node> open = new PriorityQueue<Node>(20, (Node current, Node next)-> (current.getPathCost() + current.getHeuristic(goal)) - (next.getPathCost() + next.getHeuristic(goal)));
 	public AStarEnemy(Node goal)
 	{
@@ -27,7 +28,7 @@ public class AStarEnemy extends AStar
 	}
 	public void go()
 	{
-		
+		finalNode = null;
 		//System.out.println("GO GO GO");
 		Node oldNode;
 		Node curNode = finalList.get(finalList.size()-1);
@@ -41,8 +42,13 @@ public class AStarEnemy extends AStar
 			curNode = newList.get(i);
 			if(curNode != null)
 			{
-				if(curNode.getNodeType() == 'G')
+				if(curNode.getNodeType() == 'E' || curNode.getNodeType() == 'F')
 				{
+					if(curNode.getNodeType() == 'E')
+					{
+						curNode.setHasPlayer(true);
+					}
+					finalNode = curNode;
 					break;
 				}
 				curNode.setNodeType('V');
@@ -65,5 +71,9 @@ public class AStarEnemy extends AStar
 		}
 		super.clearAll();
 		newList.clear();
+	}
+	public Node returnFinalNode()
+	{
+		return finalNode;
 	}
 }

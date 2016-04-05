@@ -7,6 +7,7 @@ import javax.imageio.*;
 import javax.swing.*;
 
 import ie.gmit.sw.maze.Node;
+import ie.gmit.sw.playanden.Player;
 
 public class GameView extends JPanel implements ActionListener
 {
@@ -24,6 +25,8 @@ public class GameView extends JPanel implements ActionListener
 	private boolean zoomOut = false;
 	private int size = DEFAULT_VIEW_SIZE/cellspan;
 	private int imageIndex = -1;
+	private Player player;
+	private HUD hud = new HUD(DEFAULT_VIEW_SIZE);
 	
 	public GameView(Node[][] maze) throws Exception
 	{
@@ -34,7 +37,10 @@ public class GameView extends JPanel implements ActionListener
 		timer = new Timer(300, this);
 		timer.start();
 	}
-	
+	public void addPlayer(Player player)
+	{
+		this.player = player;
+	}
 	public void setCurrentRow(int row) 
 	{
 		if (row < cellpadding)
@@ -130,10 +136,10 @@ public class GameView extends JPanel implements ActionListener
 	}
 	
 	public void paintComponent(Graphics g)
-	{
+	{	
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-              
+        
         cellspan = zoomOut ? maze.length : 5;         
         g2.drawRect(0, 0, GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
         
@@ -215,7 +221,10 @@ public class GameView extends JPanel implements ActionListener
             			g2.fillRect(x1, y1, size, size);
             		} 
         		}
-        		
+        		if(!(zoomOut))
+        		{
+        			hud.showHealth(player, g2); 
+        		}
         		
       		
         	}

@@ -85,4 +85,9 @@ public class AStar implements AI
 		this.goal = goal;
 		
 	}
+	@Override
+	public Node returnFinalNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

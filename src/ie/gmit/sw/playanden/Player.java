@@ -16,7 +16,8 @@ public class Player
 	{
 		return currentNode;
 	}
-	public void setCurrentNode(Node currentNode) {
+	public void setCurrentNode(Node currentNode) 
+	{
 		this.currentNode = currentNode;
 	}
 	public int getHealth() {
@@ -58,11 +59,18 @@ public class Player
 
         // Evaluate
         fis.evaluate();
-        System.out.println("GOT HERE");
+      //  System.out.println("GOT HERE");
         // Show output variable's chart
         Variable damage = functionBlock.getVariable("damage");
         
+        
+        
         this.health -= damage.getValue();
+        if(health <= 0)
+        {
+        	//System.exit(0);
+        	System.out.println("DED");
+        }
         System.out.println(health);
         this.numberOfWeapons = 0;
         setArmed(false);

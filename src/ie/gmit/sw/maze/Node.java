@@ -13,10 +13,18 @@ public class Node
 	private boolean isStart = false;
 	public boolean goal = false;
 	private boolean isEndNode = false;
+	private boolean hasPlayer = false;
 	private int row = -1;
 	private int col = -1;
 	private int distance;
 	private char nodeType;
+	public boolean isHasPlayer() {
+		return hasPlayer;
+	}
+	public void setHasPlayer(boolean hasPlayer) {
+		this.hasPlayer = hasPlayer;
+	}
+
 	public boolean isStart() {
 		return isStart;
 	}

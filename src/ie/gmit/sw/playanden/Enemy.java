@@ -21,15 +21,27 @@ public class Enemy
 		setPlayer(player);
 		endNode = player.getCurrentNode();
 		setSearchType(search);
-		setCurrentPos(startNode);
+		currentPos = startNode;
 		this.maze = maze.clone();
 	}
 	
 	public Node getCurrentPos() {
 		return currentPos;
 	}
-	public void setCurrentPos(Node currentPos) {
+	public void setCurrentPos(Node currentPos)
+	{
 		this.currentPos = currentPos;
+		
+		if(currentPos.isHasPlayer())
+		{
+			player.attack();
+			Thread.currentThread().interrupt();
+		}
+		else if(currentPos.getNodeType() == 'F')
+		{
+			Thread.currentThread().interrupt();
+		}
+		hunt();
 	}
 	public boolean isAlive() 
 	{
@@ -71,12 +83,7 @@ public class Enemy
 	{
 		updatePlayerPos();
 		hunter.traverse(maze, currentPos);
-		if(endNode.getNodeType() != 'E')
-		{	
-			System.out.println("HUNT START AGAIN");
-			hunt();
-		}
-		System.out.println("HUNT DONE");
+		setCurrentPos(hunter.returnFinalNode());
 	}
 	public void updatePlayerPos()
 	{
