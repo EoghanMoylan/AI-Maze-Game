@@ -28,10 +28,18 @@ public class AStarEnemy extends AStar
 	}
 	public void go()
 	{
-		finalNode = null;
+		finalNode.setHasPlayer(false);
 		//System.out.println("GO GO GO");
 		Node oldNode;
-		Node curNode = finalList.get(finalList.size()-1);
+		Node curNode;
+		if(finalList.size() > 0)
+		{
+			curNode = finalList.get(finalList.size()-1);
+		}
+		else
+		{
+			curNode = finalNode;
+		}
 		while(curNode != null)
 		{
 			newList.add(curNode);

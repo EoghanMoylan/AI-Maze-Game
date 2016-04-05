@@ -72,15 +72,23 @@ public class Runner implements KeyListener
 	
 	private void updateView()
 	{
-		view.setCurrentRow(currentRow);
-		view.setCurrentCol(currentCol);
-		player.setCurrentNode(model[currentRow][currentCol]);
-		//System.out.println(player.getCurrentNode());
+		if(player.getHealth() <= 0)
+		{
+			view.triggerEndScreen();
+			//System.exit(10000);
+		}
+		else
+		{
+			view.setCurrentRow(currentRow);
+			view.setCurrentCol(currentCol);
+			player.setCurrentNode(model[currentRow][currentCol]);
+			//System.out.println(player.getCurrentNode());
+		}
 	}
 
 	public void setUpEnemies()
 	{
-		for(int i = 1 ; i <= 5 ; i++)
+		for(int i = 1 ; i <= 21 ; i++)
 		{
 			Enemy.SearchType search;
 			if(i % 2 == 0)
@@ -99,7 +107,7 @@ public class Runner implements KeyListener
 				tempRow = (int) (MAZE_DIMENSION * Math.random());
 				tempCol = (int) (MAZE_DIMENSION * Math.random());
 				
-				if(model[tempRow][tempCol].getNodeType() == ' ')
+				if(model[tempRow][tempCol].getNodeType() == ' ' && model[tempRow][tempCol].getNodeType() != 'E' )
 				{
 					isValid = true;
 				}
@@ -110,17 +118,22 @@ public class Runner implements KeyListener
 			{
 			    public void run() 
 			    {
-			        try 
-			        { 
-			        	System.out.println("NEW ENEMY : " + search + " TYPE");
-			        	Enemy enemy = new Enemy(player, search, model[finalRow][finalCol], model);
-			        	enemy.initHunter();
-			        } 
-			        catch(Exception e) 
-			        {
-			            System.out.println(e);
-			        }
-			    }    
+			    	Enemy enemy = new Enemy(player, search, model[finalRow][finalCol], model);
+			    	while(!enemy.isComplete())
+			    	{
+				       // try 
+				       // { 
+				        	System.out.println("NEW ENEMY : " + search + " TYPE");        	
+				        	enemy.initHunter();
+				       // } 
+				       // catch(Exception e) 
+				       // {
+				       //     System.out.println(e);
+				       // }
+			    	}
+			    	return;
+			    }  
+			    
 			};
 			enemy.start();
 		}
@@ -177,6 +190,12 @@ public class Runner implements KeyListener
 			model[currentRow][currentCol].setNodeType(' ');
 			model[r][c].setNodeType('E');
 			return true;
+		}
+		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == 'G')
+		{
+			view.triggerEndScreen();
+			System.exit(10000);
+			return false;
 		}
 		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == '?')
 		{

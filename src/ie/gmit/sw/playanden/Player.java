@@ -9,9 +9,15 @@ public class Player
 {
 	private Node currentNode;
 	private int health = 100;
+	private int playerSteps = 1;
 	private boolean isArmed;
 	private int numberOfWeapons;
-	
+	private String fileName = "FCL/Damage.fcl";
+    private FIS fis = FIS.load(fileName,true);
+	public int getSteps()
+	{
+		return playerSteps;
+	}
 	public Node getCurrentNode()
 	{
 		return currentNode;
@@ -19,6 +25,7 @@ public class Player
 	public void setCurrentNode(Node currentNode) 
 	{
 		this.currentNode = currentNode;
+		playerSteps++;
 	}
 	public int getHealth() {
 		return health;
@@ -40,9 +47,6 @@ public class Player
 	}
 	public void attack()
 	{
-		String fileName = "FCL/Damage.fcl";
-        FIS fis = FIS.load(fileName,true);
-
         // Error while loading?
         if( fis == null )
         { 
@@ -66,11 +70,6 @@ public class Player
         
         
         this.health -= damage.getValue();
-        if(health <= 0)
-        {
-        	//System.exit(0);
-        	System.out.println("DED");
-        }
         System.out.println(health);
         this.numberOfWeapons = 0;
         setArmed(false);

@@ -59,4 +59,15 @@ public class HUD
 	        }
 		}
 	}
+	public void showEndMenu(Player p , Graphics2D g2)
+	{
+		//System.out.println("SHOWING STUFF");
+		Font font = new Font(Font.DIALOG_INPUT, Font.BOLD, 20);
+		g2.setFont(font);
+		FontMetrics f = g2.getFontMetrics(font);
+        g2.setColor(Color.black);
+               
+        String str = " tetetetet"; //("GAME OVER : \n YOU WALKED\n " + p.getSteps() + " WITH " + p.getHealth() + " HEALTH");
+        g2.drawString(str, DEFAULT_VIEW_SIZE/2-f.stringWidth(str), 30);
+	}
 }

@@ -69,7 +69,7 @@ public class EnemyIterDFS implements AI
 	} 
 	public void go()
 	{
-		finalNode = null;
+		finalNode.setHasPlayer(false);
 //		System.out.println("GO GO GO");
 		Node oldNode;
 //		Node curNode = finalList.get(finalList.size()-1);

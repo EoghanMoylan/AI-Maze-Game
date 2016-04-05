@@ -12,14 +12,21 @@ public class Enemy
 	private Player player;
 	private SearchType search;
 	private Node currentPos;
-	private Node endNode;
 	private Node[][] maze;
 	private AI hunter = null;
+	private boolean complete = false;
 	
+	public boolean isComplete() {
+		return complete;
+	}
+
+	public void setComplete(boolean complete) {
+		this.complete = complete;
+	}
+
 	public Enemy(Player player, SearchType search, Node startNode, Node[][] maze)
 	{
 		setPlayer(player);
-		endNode = player.getCurrentNode();
 		setSearchType(search);
 		currentPos = startNode;
 		this.maze = maze.clone();
@@ -32,16 +39,21 @@ public class Enemy
 	{
 		this.currentPos = currentPos;
 		
-		if(currentPos.isHasPlayer())
+		if(currentPos.isHasPlayer() && currentPos.getNodeType() == 'E')
 		{
 			player.attack();
-			Thread.currentThread().interrupt();
+			setComplete(true);
+			//Thread.currentThread().interrupt();
 		}
 		else if(currentPos.getNodeType() == 'F')
 		{
-			Thread.currentThread().interrupt();
+			setComplete(true);
+			//Thread.currentThread().interrupt();
 		}
-		hunt();
+		else
+		{
+			hunt();
+		}
 	}
 	public boolean isAlive() 
 	{
