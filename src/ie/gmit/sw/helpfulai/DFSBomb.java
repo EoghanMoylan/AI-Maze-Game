@@ -19,6 +19,7 @@ public class DFSBomb
 		this.maze = maze;
 		System.out.println("Search with limit " + limit);
 		dfs(node, 1);
+		unvisit();
 	}
 	
 	private void dfs(Node node, int depth)
@@ -39,9 +40,7 @@ public class DFSBomb
 			{
 				//System.out.println("VALID");
 				if (child != null && !child.isVisited())
-				{
-					child.setNodeType('F');
-					
+				{	
 					child.setParent(node);
 					finalList.add(child);
 
@@ -49,6 +48,15 @@ public class DFSBomb
 					System.out.println("WORKING STUFF");
 				}
 			}
+		}
+	}
+	private void unvisit()
+	{
+		
+		for(Node n : finalList)
+		{
+			System.out.println(n.toString());
+			n.setNodeType('F');
 		}
 		try 
 		{ 
@@ -59,12 +67,9 @@ public class DFSBomb
 		{
 			e.printStackTrace();
 		}
-		unvisit();
-	}
-	private void unvisit()
-	{
 		for(Node n : finalList)
 		{
+			
 			n.setNodeType(' ');
 		}
 		for (int i = 0; i < maze.length; i++)

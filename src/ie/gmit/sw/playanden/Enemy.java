@@ -69,17 +69,18 @@ public class Enemy
 	}
 	public void hunt()
 	{
+		updatePlayerPos();
 		hunter.traverse(maze, currentPos);
-		if(endNode.getNodeType() == 'E')
-		{
-			updatePlayerPos();
+		if(endNode.getNodeType() != 'E')
+		{	
+			System.out.println("HUNT START AGAIN");
 			hunt();
 		}
 		System.out.println("HUNT DONE");
 	}
 	public void updatePlayerPos()
 	{
-		System.out.println(player.getCurrentNode());
+		//System.out.println(player.getCurrentNode());
 		hunter.updateGoalNode(player.getCurrentNode());
 	}
 }

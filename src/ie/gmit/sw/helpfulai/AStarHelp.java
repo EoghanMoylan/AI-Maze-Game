@@ -7,7 +7,7 @@ import ie.gmit.sw.maze.Node;
 public class AStarHelp extends AStar
 {
 	private List<Node> finalList;
-	
+	private List<Node> newList = new ArrayList<Node>();
 	public AStarHelp(Node goal)
 	{
 		super(goal);
@@ -21,7 +21,7 @@ public class AStarHelp extends AStar
 	public void revealPath()
 	{
 		finalList = super.returnList();
-		List<Node> newList = new ArrayList<Node>();
+
 		Node curNode = finalList.get(finalList.size()-1);
 		while(curNode != null)
 		{
@@ -39,7 +39,7 @@ public class AStarHelp extends AStar
 					break;
 				}
 				curNode.setNodeType('C');
-				System.out.println(curNode.toString() + " " + curNode.getNodeType());
+				//System.out.println(curNode.toString() + " " + curNode.getNodeType());
 			}
 		}
 		try 
@@ -64,6 +64,7 @@ public class AStarHelp extends AStar
 			}
 		}
 		super.clearAll();
+		newList.clear();
 		//Thread.currentThread().interrupt();
 	}
 }

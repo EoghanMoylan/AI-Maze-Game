@@ -11,12 +11,19 @@ public class EnemyIterDFS implements AI
 	private Node goal;
 	private boolean keepRunning = true;
 	private List<Node> finalList = new ArrayList<Node>();
+	private List<Node> newList = new ArrayList<Node>();
+	//private Enemy enemy;
+	
+	public EnemyIterDFS()
+	{
+		//this.enemy = enemy;
+	}
 	
 	public void traverse(Node[][] maze, Node start) 
 	{
-		maze = maze.clone();
+		//maze = maze.clone();
 		this.maze = maze;
-		int limit = 9;
+		int limit = 2;
 		
 		while(keepRunning)
 		{
@@ -67,14 +74,14 @@ public class EnemyIterDFS implements AI
 	} 
 	public void go()
 	{
-		List<Node> newList = new ArrayList<Node>();
+	
 //		System.out.println("GO GO GO");
 		Node oldNode;
 //		Node curNode = finalList.get(finalList.size()-1);
 		Node curNode = goal;
 		while(curNode != null)
 		{
-			System.out.println("ADDING");
+		//	System.out.println("ADDING");
 			newList.add(curNode);
 			curNode = curNode.getParent();
 		}
@@ -84,7 +91,7 @@ public class EnemyIterDFS implements AI
 			curNode = newList.get(i);
 			if(curNode != null)
 			{
-				System.out.println(curNode.toString() + " " + curNode.getNodeType());
+				//System.out.println(curNode.toString() + " " + curNode.getNodeType());
 				
 				if(curNode.getNodeType() == 'G')
 				{
@@ -104,7 +111,7 @@ public class EnemyIterDFS implements AI
 				e.printStackTrace();
 			}
 			oldNode = curNode;
-			if(oldNode.getNodeType() != 'X' && oldNode.getNodeType() != 'G')
+			if(oldNode.getNodeType() != 'X' && oldNode.getNodeType() != 'G' && oldNode.getNodeType() != 'C' && oldNode.getNodeType() != 'F')
 			{
 				oldNode.setNodeType(' ');
 			}
@@ -116,6 +123,7 @@ public class EnemyIterDFS implements AI
 		
 	private void unvisit()
 	{
+		newList.clear();
 		finalList.clear();
 		for (int i = 0; i < maze.length; i++)
 		{
@@ -129,7 +137,8 @@ public class EnemyIterDFS implements AI
 	}
 
 	@Override
-	public void updateGoalNode(Node goal) {
+	public void updateGoalNode(Node goal)
+	{
 		this.goal = goal;
 		
 	}

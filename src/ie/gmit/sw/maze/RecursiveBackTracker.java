@@ -77,7 +77,7 @@ public class RecursiveBackTracker implements MazeGenerator
 		addFeature('W', 'X', featureNumber);
 		addFeature('?', 'X', featureNumber);
 		addFeature('B', 'X', featureNumber);
-		addFeature('H', 'X', featureNumber);
+		//addFeature('H', 'X', featureNumber);
 	}
 	private void addFeature(char feature, char replace, int number)
 	{

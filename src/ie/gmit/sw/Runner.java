@@ -33,7 +33,6 @@ public class Runner implements KeyListener
 		model = m.getMaze();
 		endGoal = m.getGoalNode();
     	view = new GameView(model);
-    	
     	placePlayer();
     	
     	Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
@@ -51,9 +50,9 @@ public class Runner implements KeyListener
         f.pack();
         f.setVisible(true);
         setUpEnemies();
+      ////  Enemy enemy = new Enemy(player, SearchType.ITERDFS, model[2][2], model);
+      //  enemy.initHunter();
 //        System.out.println(endGoal.toString() + " GOAL");
-//        AI hunter = new AStarEnemy(endGoal);
-//        hunter.traverse(model, model[2][2]);
 //        AI hunter = new EnemyIterDFS();
 //        hunter.traverse(model, model[2][2]);
 	}
@@ -85,7 +84,7 @@ public class Runner implements KeyListener
 
 	public void setUpEnemies()
 	{
-		for(int i = 1 ; i <= 2 ; i++)
+		for(int i = 1 ; i <= 5 ; i++)
 		{
 			Enemy.SearchType search;
 			if(i % 2 == 0)
@@ -125,9 +124,7 @@ public class Runner implements KeyListener
 			        {
 			            System.out.println(e);
 			        }
-			       // return;
-			    }  
-			   
+			    }    
 			};
 			enemy.start();
 		}
@@ -187,6 +184,7 @@ public class Runner implements KeyListener
 		}
 		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == '?')
 		{
+			model[r][c].setNodeType('X');
 			Thread help = new Thread() 
 			{
 			    public void run() 
@@ -212,6 +210,7 @@ public class Runner implements KeyListener
 		}
 		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == 'B')
 		{
+			model[r][c].setNodeType('X');
 			Thread bomb = new Thread() 
 			{
 			    public void run() 
@@ -220,7 +219,7 @@ public class Runner implements KeyListener
 			        try 
 			        { 
 						
-						DFSBomb dfsbomb = new DFSBomb(3);
+						DFSBomb dfsbomb = new DFSBomb(6);
 						dfsbomb.traverse(model, model[currentRow][currentCol]);
 			        } 
 			        catch(Exception e) 
@@ -232,6 +231,13 @@ public class Runner implements KeyListener
 			    
 			};
 			bomb.start();
+			return false;
+		}
+		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == 'W')
+		{
+			model[r][c].setNodeType('X');
+			player.setArmed(true);
+			player.setNumberOfWeapons(player.getNumberOfWeapons() + 1);
 			return false;
 		}
 		else
