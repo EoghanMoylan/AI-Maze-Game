@@ -13,7 +13,7 @@ public class AStar implements AI
 	private List<Node> closed = new ArrayList<Node>();
 	private List<Node> finalList = new ArrayList<Node>();
 	private List<Node> allNodes = new ArrayList<Node>();
-	private PriorityQueue<Node> open = new PriorityQueue<Node>(20, (Node current, Node next)-> (current.getPathCost() + current.getHeuristic(goal)) - (next.getPathCost() + next.getHeuristic(goal)));
+	private PriorityQueue<Node> open ;
 	
 	public AStar(Node goal)
 	{
@@ -21,9 +21,11 @@ public class AStar implements AI
 	}
 	public void traverse(Node[][] maze, Node node)
 	{	
+		open = new PriorityQueue<Node>(20, (Node current, Node next)-> (current.getPathCost() + current.getHeuristic(goal)) - (next.getPathCost() + next.getHeuristic(goal)));
         maze = maze.clone();
 		open.offer(node);
-		node.setPathCost(0);			
+		node.setPathCost(0);
+		
 		while(!open.isEmpty())
 		{
 			//System.out.println("LOOKING");

@@ -11,6 +11,7 @@ public class AStarEnemy extends AStar
 	private List<Node> finalList; //= new ArrayList<Node>();
 	private List<Node> newList = new ArrayList<Node>();
 	private Node finalNode = new Node(0, 0);
+	private Node firstNode;
 	//private PriorityQueue<Node> open = new PriorityQueue<Node>(20, (Node current, Node next)-> (current.getPathCost() + current.getHeuristic(goal)) - (next.getPathCost() + next.getHeuristic(goal)));
 	public AStarEnemy(Node goal)
 	{
@@ -22,6 +23,7 @@ public class AStarEnemy extends AStar
 	}
 	public void traverse(Node[][] maze, Node node)
 	{
+		this.finalNode = node;
 		super.traverse(maze, node);
 		finalList = super.returnList();
 		go();
@@ -38,7 +40,7 @@ public class AStarEnemy extends AStar
 		}
 		else
 		{
-			curNode = finalNode;
+			curNode = firstNode;
 		}
 		while(curNode != null)
 		{

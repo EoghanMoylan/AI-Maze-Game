@@ -27,7 +27,7 @@ public class GameView extends JPanel implements ActionListener
 	private int imageIndex = -1;
 	private Player player;
 	private HUD hud = new HUD(DEFAULT_VIEW_SIZE);
-	private Graphics2D graph;
+	//private Graphics2D graph;
 	
 	public GameView(Node[][] maze) throws Exception
 	{
@@ -140,7 +140,6 @@ public class GameView extends JPanel implements ActionListener
 	{	
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        graph = g2;
         
         cellspan = zoomOut ? maze.length : 5;         
         g2.drawRect(0, 0, GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
@@ -234,8 +233,7 @@ public class GameView extends JPanel implements ActionListener
 	}
 	public void triggerEndScreen()
 	{
-		System.out.println("SHOULD BE SHOWING STUFF");
-		hud.showEndMenu(player, graph);
+		hud.setGameOver(true);
 	}
 	public void toggleZoom()
 	{

@@ -74,8 +74,7 @@ public class Runner implements KeyListener
 	{
 		if(player.getHealth() <= 0)
 		{
-			view.triggerEndScreen();
-			//System.exit(10000);
+			end();
 		}
 		else
 		{
@@ -88,7 +87,7 @@ public class Runner implements KeyListener
 
 	public void setUpEnemies()
 	{
-		for(int i = 1 ; i <= 21 ; i++)
+		for(int i = 1 ; i <= 7 ; i++)
 		{
 			Enemy.SearchType search;
 			if(i % 2 == 0)
@@ -121,15 +120,15 @@ public class Runner implements KeyListener
 			    	Enemy enemy = new Enemy(player, search, model[finalRow][finalCol], model);
 			    	while(!enemy.isComplete())
 			    	{
-				       // try 
-				       // { 
+				        try 
+				        { 
 				        	System.out.println("NEW ENEMY : " + search + " TYPE");        	
 				        	enemy.initHunter();
-				       // } 
-				       // catch(Exception e) 
-				       // {
-				       //     System.out.println(e);
-				       // }
+				        } 
+				        catch(Exception e) 
+				        {
+				            System.out.println(e);
+				        }
 			    	}
 			    	return;
 			    }  
@@ -193,8 +192,7 @@ public class Runner implements KeyListener
 		}
 		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == 'G')
 		{
-			view.triggerEndScreen();
-			System.exit(10000);
+			end();
 			return false;
 		}
 		else if(r <= model.length - 1 && c <= model[r].length - 1 && model[r][c].getNodeType() == '?')
@@ -260,7 +258,21 @@ public class Runner implements KeyListener
 			return false; //Can't move
 		}
 	}
-	
+	public void end()
+	{
+		view.triggerEndScreen();
+		try 
+		{ 
+			//Simulate processing each expanded node
+			Thread.sleep(5000);
+		}
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+		System.exit(0);
+		
+	}
 	public static void main(String[] args) throws Exception 
 	{
 		new Runner();

@@ -24,6 +24,7 @@ public class RecursiveBackTracker implements MazeGenerator
 		Node startNode = startingCells.get(randNode);
 		Node thisNode = startNode;
 		Stack<Node> nodes = new Stack<Node>();
+		@SuppressWarnings("unused")
 		boolean firstNode = true;
 		ArrayList<Node> adjNodes = new ArrayList<Node>();
 		ArrayList<Node> validNeighbours = new ArrayList<Node>();
