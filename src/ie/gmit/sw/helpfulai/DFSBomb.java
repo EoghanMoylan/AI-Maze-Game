@@ -15,7 +15,8 @@ public class DFSBomb
 		this.limit = limit;
 	}
 	
-	public void traverse(Node[][] maze, Node node) {
+	public void traverse(Node[][] maze, Node node) 
+	{
 		this.maze = maze;
 		System.out.println("Search with limit " + limit);
 		dfs(node, 1);

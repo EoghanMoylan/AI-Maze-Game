@@ -77,6 +77,7 @@ public class HUD
 	}
 	public void showEndMenu(Player p , Graphics2D g2)
 	{
+		//paints screen black and adds white text
 		int finHealth = p.getHealth();
 		Font font = new Font(Font.DIALOG_INPUT, Font.BOLD, 20);
 		g2.setFont(font);

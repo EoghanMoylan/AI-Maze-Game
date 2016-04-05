@@ -17,12 +17,16 @@ public class AStar implements AI
 	
 	public AStar(Node goal)
 	{
+		//assigns/updates goal node allowing for multiple searches if player is not found
 		updateGoalNode(goal);
 	}
 	public void traverse(Node[][] maze, Node node)
 	{	
+		//assigns new open queue in order to avoid StackOverflow exceptions
 		open = new PriorityQueue<Node>(20, (Node current, Node next)-> (current.getPathCost() + current.getHeuristic(goal)) - (next.getPathCost() + next.getHeuristic(goal)));
-        maze = maze.clone();
+        //clones instance of maze so as to avoid the editing of nodes used by other searches
+		//not entirely efficient
+		maze = maze.clone();
 		open.offer(node);
 		node.setPathCost(0);
 		
@@ -50,6 +54,7 @@ public class AStar implements AI
 				{
 					int score = node.getPathCost() + 1 + child.getHeuristic(goal);
 					int existing = child.getPathCost() + child.getHeuristic(goal);
+					
 					if ((open.contains(child) || closed.contains(child)) && existing < score)
 					{
 						continue;
@@ -80,10 +85,12 @@ public class AStar implements AI
 	}
 	public List<Node> returnList()
 	{
+		//returns list of nodes visited
 		return finalList;
 	}
 	@Override
-	public void updateGoalNode(Node goal) {
+	public void updateGoalNode(Node goal) 
+	{
 		this.goal = goal;
 		
 	}

@@ -30,6 +30,7 @@ public class AStarEnemy extends AStar
 	}
 	public void go()
 	{
+		//resets to zero to avoid enemies attack player when player not present
 		finalNode.setHasPlayer(false);
 		//System.out.println("GO GO GO");
 		Node oldNode;
@@ -40,13 +41,16 @@ public class AStarEnemy extends AStar
 		}
 		else
 		{
+			//if the list is empty start from the beginning again
 			curNode = firstNode;
 		}
 		while(curNode != null)
 		{
+			//travel up through the parents to find path to beginning
 			newList.add(curNode);
 			curNode = curNode.getParent();
 		}
+		//reverse the list so nodes start traveling from beginning point
 		for(int i = newList.size() -1 ; i >= 1 ; i--)
 		{
 			curNode = newList.get(i);
@@ -76,9 +80,11 @@ public class AStarEnemy extends AStar
 			oldNode = curNode;
 			if(oldNode.getNodeType() != 'X' && oldNode.getNodeType() != 'G' && oldNode.getNodeType() != 'C' && oldNode.getNodeType() != 'F')
 			{
+				//reset node to floor so as not to create path of enemies
 				oldNode.setNodeType(' ');
 			}
 		}
+		//reset all nodes and lists
 		super.clearAll();
 		newList.clear();
 	}

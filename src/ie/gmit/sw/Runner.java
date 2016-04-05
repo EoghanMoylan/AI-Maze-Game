@@ -27,7 +27,9 @@ public class Runner implements KeyListener
 	
 	public Runner() throws Exception
 	{	
+		//only one instance of the player and is passed around between classes
 		player = new Player();
+		//new recursive back tracker maze type. Others not working fully
 		MazeGenerator m = new RecursiveBackTracker();
 		m.buildMaze(MAZE_DIMENSION, MAZE_DIMENSION);
 		model = m.getMaze();
@@ -55,6 +57,8 @@ public class Runner implements KeyListener
 	
 	private void placePlayer()
 	{   	
+		//places the player only in a section of the maze with the floor type
+		//this is to avoid the deletion of walls and therefore loops
 		boolean isValid = false;
 		while(!isValid)
 		{
@@ -72,6 +76,7 @@ public class Runner implements KeyListener
 	
 	private void updateView()
 	{
+		//looks camera movement if player health is below 0
 		if(player.getHealth() <= 0)
 		{
 			end();
@@ -87,6 +92,9 @@ public class Runner implements KeyListener
 
 	public void setUpEnemies()
 	{
+		//Creates 7 different threads each with a new enemy
+		//as with player will only spawn enemy on node with floor type
+		//relatively evenly assigns iterative deepening and A* algorithms to enemies
 		for(int i = 1 ; i <= 7 ; i++)
 		{
 			Enemy.SearchType search;
@@ -184,6 +192,7 @@ public class Runner implements KeyListener
     
 	private boolean isValidMove(int r, int c)
 	{
+		//calculates if next node has floor type, and if not triggers the event of the node (if event is there)
 		if (r <= model.length - 1 && c <= model[r].length - 1 && (model[r][c].getNodeType() == ' ' ||model[r][c].getNodeType() == 'C'))
 		{
 			model[currentRow][currentCol].setNodeType(' ');
@@ -260,6 +269,8 @@ public class Runner implements KeyListener
 	}
 	public void end()
 	{
+		//ends the game by triggering the end screen and closing the window
+		//used upon death and on reaching the goal node
 		view.triggerEndScreen();
 		try 
 		{ 

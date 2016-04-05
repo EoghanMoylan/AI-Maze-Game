@@ -31,6 +31,7 @@ public class GameView extends JPanel implements ActionListener
 	
 	public GameView(Node[][] maze) throws Exception
 	{
+		//initialise the game view/ map etc.
 		init();
 		this.maze = maze;
 		setBackground(Color.LIGHT_GRAY);
@@ -40,6 +41,7 @@ public class GameView extends JPanel implements ActionListener
 	}
 	public void addPlayer(Player player)
 	{
+		//assigns the player instance from runner
 		this.player = player;
 	}
 	public void setCurrentRow(int row) 
@@ -75,6 +77,8 @@ public class GameView extends JPanel implements ActionListener
 	}
 	public void defineMapColours(int row, int col, Graphics2D g2)
 	{
+		//defines the map colours for the zoomed out map
+		//different from the main view colours to emphasise paths
 		int x1 = col * size;
 		int y1 = row * size;
 		char ch = maze[row][col].getNodeType();
@@ -151,7 +155,7 @@ public class GameView extends JPanel implements ActionListener
         		size = DEFAULT_VIEW_SIZE/cellspan;
         		int x1 = col * size;
         		int y1 = row * size;
-        		
+        		//assigns the default character to wall
         		char ch = 'X';
        		
         		if (zoomOut)
@@ -224,6 +228,7 @@ public class GameView extends JPanel implements ActionListener
         		}
         		if(!(zoomOut))
         		{
+        			//will show the HUD's health bar when not zoomed in
         			hud.showHealth(player, g2); 
         		}
         		
@@ -233,6 +238,7 @@ public class GameView extends JPanel implements ActionListener
 	}
 	public void triggerEndScreen()
 	{
+		//triggers the end screen when the goal node is reached
 		hud.setGameOver(true);
 	}
 	public void toggleZoom()

@@ -82,6 +82,7 @@ public class RecursiveBackTracker implements MazeGenerator
 	}
 	private void addFeature(char feature, char replace, int number)
 	{
+		//adds the various features to walls of the maze
 		int counter = 0;
 		while (counter < number)
 		{
@@ -97,6 +98,7 @@ public class RecursiveBackTracker implements MazeGenerator
 	}
 	private void addEndGoal()
 	{
+		//adds an end goal to maze in one of the wall areas
 		boolean isValid = false;
 		int row = 1;
 		int col = 1;
@@ -116,6 +118,7 @@ public class RecursiveBackTracker implements MazeGenerator
 	}
 	private Node getWall(Node n1, Node n2)
 	{
+		//returns the node with wall type requested so that it can be altered to floor type
 		Node wall;
 		if (n1.getRow() == n2.getRow()) 
 		{
@@ -149,6 +152,7 @@ public class RecursiveBackTracker implements MazeGenerator
 	
 	private void init()
 	{
+		//creates a grid of walls and floors
 		for (int row = 0; row < maze.length; row ++)
 		{
 			for (int col = 0; col < maze[row].length; col++)
